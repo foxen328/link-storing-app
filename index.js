@@ -1,12 +1,14 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"
-import { getDatabase,
-         ref,
-         push,
-         onValue,
-         remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js"
+import {
+    getDatabase,
+    ref,
+    push,
+    onValue,
+    remove
+} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js"
 
 const firebaseConfig = {
-    databaseURL: process.env.DATABASE_URL
+    databaseURL: "chrisf-leads-tracker-app-default-rtdb.europe-west1.firebasedatabase.app/"
 }
 
 const app = initializeApp(firebaseConfig)
@@ -32,7 +34,7 @@ function render(leads) {
     ulEl.innerHTML = listItems
 }
 
-onValue(referenceInDB, function(snapshot) {
+onValue(referenceInDB, function (snapshot) {
     const snapshotDoesExist = snapshot.exists()
     if (snapshotDoesExist) {
         const snapshotValues = snapshot.val()
@@ -41,12 +43,12 @@ onValue(referenceInDB, function(snapshot) {
     }
 })
 
-deleteBtn.addEventListener("dblclick", function() {
+deleteBtn.addEventListener("dblclick", function () {
     remove(referenceInDB)
     ulEl.innerHTML = ""
 })
 
-inputBtn.addEventListener("click", function() {
+inputBtn.addEventListener("click", function () {
     push(referenceInDB, inputEl.value)
-    inputEl.value = "" 
+    inputEl.value = ""
 })
