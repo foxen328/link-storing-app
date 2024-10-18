@@ -1,5 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"
-import { getDatabase } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js"
+import {
+    getDatabase,
+    ref,
+    push
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js"
 const firebaseConfig = {
     databaseURL: "https://chrisf-leads-tracker-app-default-rtdb.europe-west1.firebasedatabase.app/"
     //databaseURL: ProcessingInstruction.env.database_URL
@@ -7,27 +11,28 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig)
 const database = getDatabase(app)
+const referenceInDB = ref(database, "Placeholder")
 
-let myLeads = []
+//let myLeads = []
 const inputEl = document.getElementById("input-el")
 const inputBtn = document.getElementById("input-btn")
 const ulEl = document.getElementById("ul-el")
 const deleteBtn = document.getElementById("delete-btn")
-const leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"))
+//const leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"))
 const tabBtn = document.getElementById("tab-btn")
 
-if (leadsFromLocalStorage) {
-    myLeads = leadsFromLocalStorage
-    render(myLeads)
-}
+// if (leadsFromLocalStorage) {
+//     myLeads = leadsFromLocalStorage
+//     render(myLeads)
+// }
 
-tabBtn.addEventListener("click", function () {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        myLeads.push(tabs[0].url)
-        localStorage.setItem("myLeads", JSON.stringify(myLeads))
-        render(myLeads)
-    })
-})
+// tabBtn.addEventListener("click", function () {
+//     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+//         myLeads.push(tabs[0].url)
+//         localStorage.setItem("myLeads", JSON.stringify(myLeads))
+//         render(myLeads)
+//     })
+// })
 
 function render(leads) {
     let listItems = ""
@@ -44,14 +49,14 @@ function render(leads) {
 }
 
 deleteBtn.addEventListener("dblclick", function () {
-    localStorage.clear()
-    myLeads = []
+    //localStorage.clear()
+    //myLeads = []
     render(myLeads)
 })
 
 inputBtn.addEventListener("click", function () {
-    myLeads.push(inputEl.value)
+    console.log(inputEl.value)
     inputEl.value = ""
-    localStorage.setItem("myLeads", JSON.stringify(myLeads))
-    render(myLeads)
+    //localStorage.setItem("myLeads", JSON.stringify(myLeads))
+    //render(myLeads)
 })
